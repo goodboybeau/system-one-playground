@@ -1,0 +1,159 @@
+# Every engine the lab can run. `project` is the directory whose .venv runs the engine.
+# Local engines run offline in a macOS sandbox with outbound network denied; `remote` engines
+# (Jev) are the exception and receive only the env vars listed in `secrets`.
+
+[[engine]]
+id = "laya-en"
+label = "Laya · English"
+project = "engines/laya"
+loader = "engine_laya:load"
+model = "english"
+devices = ["mps", "cpu"]
+params = 421_000_000
+architecture = "encoder (ModernBERT-large) + decision head"
+license = "Apache-2.0"
+source = "https://huggingface.co/convaiinnovations/laya"
+weights = ["convaiinnovations/laya:."]
+note = "512-token context; ships overconfident; truncates long state (the lab flags it)."
+
+[[engine]]
+id = "laya-multi"
+label = "Laya · Multilingual"
+project = "engines/laya"
+loader = "engine_laya:load"
+model = "multilingual"
+devices = ["mps", "cpu"]
+params = 322_000_000
+architecture = "encoder (mmBERT-base) + decision head"
+license = "Apache-2.0"
+source = "https://huggingface.co/convaiinnovations/laya"
+weights = ["convaiinnovations/laya:multilingual"]
+note = "100+ languages, 1,024-token context."
+
+[[engine]]
+id = "laya-typed"
+label = "Laya · Typed-decisions"
+project = "engines/laya"
+loader = "engine_laya:load"
+model = "typed-decisions"
+devices = ["mps", "cpu"]
+params = 421_000_000
+architecture = "encoder (ModernBERT-large) + decision head"
+license = "Apache-2.0"
+source = "https://huggingface.co/convaiinnovations/laya"
+weights = ["convaiinnovations/laya:typed-decisions"]
+note = "Fine-tuned on the typed-decisions benchmark's own train split."
+
+[[engine]]
+id = "decider-0.8b"
+label = "Decider 0.8B"
+project = "engines/decider"
+loader = "engine_decider:load"
+model = "Mapika/decider-0.8b"
+devices = ["mps", "cpu"]
+params = 752_000_000
+architecture = "Qwen3.5-0.8B, full fine-tune, option-letter readout"
+license = "Apache-2.0"
+source = "https://github.com/Mapika/decider"
+weights = ["Mapika/decider-0.8b"]
+note = "CPU is impractical (~9 s/request): Qwen3.5's recurrent layers have no fast CPU kernels."
+
+[[engine]]
+id = "decider-2b"
+label = "Decider 2B"
+project = "engines/decider"
+loader = "engine_decider:load"
+model = "Mapika/decider-2b"
+devices = ["mps", "cpu"]
+params = 1_880_000_000
+architecture = "Qwen3.5-2B, full fine-tune, option-letter readout"
+license = "Apache-2.0"
+source = "https://github.com/Mapika/decider"
+weights = ["Mapika/decider-2b"]
+note = "Decision Index 29.0."
+
+[[engine]]
+id = "decider-4b"
+label = "Decider 4B"
+project = "engines/decider"
+loader = "engine_decider:load"
+model = "Mapika/decider-4b"
+devices = ["mps", "cpu"]
+params = 4_210_000_000
+architecture = "Qwen3.5-4B, full fine-tune, option-letter readout"
+license = "Apache-2.0"
+source = "https://github.com/Mapika/decider"
+weights = ["Mapika/decider-4b"]
+note = "Decision Index 40.7: the best open model under 10B on that board."
+
+[[engine]]
+id = "kev-0.8b"
+label = "Kev 0.8B"
+project = "engines/kev"
+loader = "engine_kev:load"
+model = "jaredpalmer/kev-0.8b"
+devices = ["mlx", "mps", "cpu"]
+params = 873_000_000
+architecture = "Qwen3.5-0.8B-Base + LoRA + pointer head"
+license = "Apache-2.0"
+source = "https://github.com/jaredpalmer/kev"
+weights = ["jaredpalmer/kev-0.8b", "Qwen/Qwen3.5-0.8B-Base"]
+note = "Runs on MLX on Apple Silicon."
+
+[[engine]]
+id = "kev-4b"
+label = "Kev 4B"
+project = "engines/kev"
+loader = "engine_kev:load"
+model = "jaredpalmer/kev-4b"
+devices = ["mlx", "mps", "cpu"]
+params = 4_660_000_000
+architecture = "Qwen3.5-4B-Base + LoRA + pointer head"
+license = "Apache-2.0"
+source = "https://github.com/jaredpalmer/kev"
+weights = ["jaredpalmer/kev-4b", "Qwen/Qwen3.5-4B-Base"]
+note = "Decision Index 34.6."
+
+[[engine]]
+id = "qwen-4b-plain"
+label = "Qwen3.5 4B · plain LLM"
+project = "engines/decider"
+loader = "engine_decider:load"
+model = "Qwen/Qwen3.5-4B"
+devices = ["mps", "cpu"]
+params = 4_210_000_000
+architecture = "stock instruct LLM, no decision training (read through Decider's chat layout)"
+license = "Apache-2.0"
+source = "https://huggingface.co/Qwen/Qwen3.5-4B"
+weights = ["Qwen/Qwen3.5-4B"]
+note = "Baseline: what decision training adds over reading a plain LLM's option logits."
+
+[[engine]]
+id = "overlap"
+label = "Word-overlap baseline"
+project = "labkit"
+loader = "labkit.mock:load"
+model = "lexical"
+devices = ["cpu"]
+params = 0
+architecture = "counts words shared between the state and each option"
+license = "n/a"
+source = "labkit/src/labkit/mock.py"
+weights = []
+note = "Floor to beat: a model that loses to this is not reading the text."
+
+[[engine]]
+id = "jev"
+label = "Jev 1.13 · TypeSafe"
+project = "engines/jev"
+loader = "engine_jev:load"
+model = "jev-1.13.0"
+devices = ["remote"]
+params = 0
+architecture = "undisclosed (hosted)"
+license = "proprietary"
+source = "https://docs.typesafe.ai"
+weights = []
+remote = true
+secrets = ["TYPESAFE_API_KEY", "TYPESAFE_BASE_URL"]
+note = "Hosted reference. Sends data to TypeSafe; CPU/memory measure the local proxy only."

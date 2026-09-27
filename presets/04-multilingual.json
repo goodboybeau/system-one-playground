@@ -1,0 +1,27 @@
+{
+  "title": "Multilingual intent",
+  "description": "The same question over a German message. Try Laya English vs Multilingual.",
+  "tags": [
+    "choice",
+    "multilingual"
+  ],
+  "request": {
+    "state": "Meine Karte wurde gestern gestohlen und jemand hat damit 300 Euro abgehoben. Bitte sperren Sie sie sofort!",
+    "questions": {
+      "intent": {
+        "type": "choice",
+        "instructions": "What does the customer need?",
+        "criteria": {
+          "block_card": "lost or stolen card, block it",
+          "dispute": "dispute a charge",
+          "balance": "check balance",
+          "other": "anything else"
+        }
+      },
+      "fraud": {
+        "type": "noul",
+        "instructions": "Does the customer report fraud?"
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+.env
+.run/
+**/.venv/
+**/__pycache__/
+**/.pytest_cache/
+ui/node_modules/
+ui/dist/
+ui/test-results/
+ui/playwright-report/
+*.tsbuildinfo
+
+# Benchmark slices whose source license doesn't state redistribution terms; `make setup` fetches them.
+datasets/ag_news.jsonl
+datasets/emotion.jsonl
+datasets/sst5.jsonl
+datasets/sms_spam.jsonl

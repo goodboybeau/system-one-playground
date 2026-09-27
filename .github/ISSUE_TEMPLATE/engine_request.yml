@@ -1,0 +1,28 @@
+name: New engine
+description: Propose a decision model to add
+labels: [engine]
+body:
+  - type: input
+    id: model
+    attributes:
+      label: Model and link
+      placeholder: "Bespoke Nimble 9B — https://huggingface.co/bespokelabs/Bespoke-Nimble-9B-v2"
+    validations:
+      required: true
+  - type: input
+    id: license
+    attributes:
+      label: License of the weights
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it's interesting
+      description: Size, architecture, benchmark results, anything that makes it worth comparing.
+  - type: checkboxes
+    id: runs
+    attributes:
+      label: Runs on a Mac
+      options:
+        - label: I've run it on Apple Silicon (MPS, MLX or CPU)

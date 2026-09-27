@@ -1,0 +1,52 @@
+{
+  "title": "Lead scoring from CRM JSON",
+  "description": "Nested JSON state: score a sales lead and pull out buying signals.",
+  "tags": [
+    "score",
+    "noul",
+    "nested JSON"
+  ],
+  "request": {
+    "state": {
+      "company": {
+        "name": "Brightline Logistics",
+        "employees": 1200,
+        "industry": "freight"
+      },
+      "contact": {
+        "title": "VP Operations"
+      },
+      "activity": [
+        {
+          "type": "pricing_page_visit",
+          "count": 4
+        },
+        {
+          "type": "demo_request",
+          "note": "Need rollout before Q1, budget approved"
+        }
+      ]
+    },
+    "questions": {
+      "quality": {
+        "type": "score",
+        "instructions": "How promising is this lead?",
+        "criteria": [
+          "cold",
+          "lukewarm",
+          "warm",
+          "hot",
+          "ready to buy"
+        ]
+      },
+      "budget": {
+        "type": "noul",
+        "instructions": "Has the lead said they have budget?"
+      },
+      "decision_maker": {
+        "type": "noul",
+        "instructions": "Is the contact likely a decision maker?"
+      }
+    }
+  }
+}

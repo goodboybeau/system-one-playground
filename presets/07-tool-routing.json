@@ -1,0 +1,37 @@
+{
+  "title": "Agent tool routing",
+  "description": "Pick the tool an agent should call next, and whether to ask a clarifying question.",
+  "tags": [
+    "choice",
+    "noul",
+    "agents"
+  ],
+  "request": {
+    "state": {
+      "user": "Can you move my 3pm with Priya to tomorrow and let her know?",
+      "available_tools": [
+        "calendar.reschedule",
+        "email.send",
+        "web.search",
+        "calculator"
+      ]
+    },
+    "questions": {
+      "tool": {
+        "type": "choice",
+        "instructions": "Which tool should the agent call first?",
+        "criteria": {
+          "calendar.reschedule": "move or create calendar events",
+          "email.send": "send an email",
+          "web.search": "look something up online",
+          "calculator": "do arithmetic",
+          "none": "no tool needed"
+        }
+      },
+      "clarify": {
+        "type": "noul",
+        "instructions": "Is something essential missing, so the agent must ask before acting?"
+      }
+    }
+  }
+}

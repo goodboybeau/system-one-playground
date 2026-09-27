@@ -1,0 +1,21 @@
+[project]
+name = "labkit"
+version = "0.1.0"
+description = "Shared /v1/systemone contract and engine server for System One Playground"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn>=0.30",
+    "pydantic>=2.9",
+]
+
+[dependency-groups]
+dev = ["pytest>=8", "httpx>=0.27"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+filterwarnings = ["ignore::DeprecationWarning:starlette.*", "ignore:Using `httpx` with `starlette.testclient`"]
+testpaths = ["tests"]

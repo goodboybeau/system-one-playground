@@ -1,0 +1,49 @@
+{
+  "title": "30-way product routing",
+  "description": "One choice across 30 categories. Watch option budgets and confidence spread.",
+  "tags": [
+    "choice",
+    "many options"
+  ],
+  "request": {
+    "state": "Looking for something to put on my desk so I can see two spreadsheets side by side, 27 inch, USB-C would be great.",
+    "questions": {
+      "category": {
+        "type": "choice",
+        "instructions": "Which product category is the shopper looking for?",
+        "criteria": [
+          "laptops",
+          "phones",
+          "tablets",
+          "monitors",
+          "keyboards",
+          "mice",
+          "headphones",
+          "speakers",
+          "cameras",
+          "printers",
+          "routers",
+          "smartwatches",
+          "tv",
+          "game consoles",
+          "drones",
+          "e-readers",
+          "chargers",
+          "cables",
+          "storage drives",
+          "graphics cards",
+          "processors",
+          "memory",
+          "motherboards",
+          "power supplies",
+          "cases",
+          "microphones",
+          "webcams",
+          "projectors",
+          "vr headsets",
+          "smart home"
+        ]
+      }
+    }
+  }
+}

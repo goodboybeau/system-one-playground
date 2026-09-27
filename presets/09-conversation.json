@@ -1,0 +1,42 @@
+{
+  "title": "Conversation outcome",
+  "description": "Array state: a support chat. Was the issue resolved, and how did the customer feel?",
+  "tags": [
+    "noul",
+    "score",
+    "array state"
+  ],
+  "request": {
+    "state": [
+      {
+        "role": "customer",
+        "text": "My export keeps failing with error 504."
+      },
+      {
+        "role": "agent",
+        "text": "Sorry about that! Can you try exporting a smaller date range?"
+      },
+      {
+        "role": "customer",
+        "text": "That worked, thanks. A bit annoying but fine."
+      }
+    ],
+    "questions": {
+      "resolved": {
+        "type": "noul",
+        "instructions": "Was the customer's problem solved by the end?"
+      },
+      "sentiment": {
+        "type": "score",
+        "instructions": "How does the customer feel at the end?",
+        "criteria": [
+          "angry",
+          "frustrated",
+          "neutral",
+          "satisfied",
+          "delighted"
+        ]
+      }
+    }
+  }
+}

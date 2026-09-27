@@ -1,0 +1,39 @@
+{
+  "title": "Content moderation",
+  "description": "Classify a comment's policy category and severity, and decide on human review.",
+  "tags": [
+    "choice",
+    "score",
+    "noul"
+  ],
+  "request": {
+    "state": "Honestly people like you shouldn't be allowed to post here. Go back to wherever you came from, nobody wants you.",
+    "questions": {
+      "category": {
+        "type": "choice",
+        "instructions": "Which policy does this comment most violate?",
+        "criteria": {
+          "harassment": "insults or attacks aimed at a person",
+          "hate": "attacks on a group for who they are",
+          "spam": "ads, scams, repeated links",
+          "self_harm": "encourages self-harm",
+          "none": "no violation"
+        }
+      },
+      "severity": {
+        "type": "score",
+        "instructions": "How severe is it?",
+        "criteria": [
+          "harmless",
+          "rude",
+          "abusive",
+          "threatening"
+        ]
+      },
+      "review": {
+        "type": "noul",
+        "instructions": "Should a human moderator review this before it stays up?"
+      }
+    }
+  }
+}

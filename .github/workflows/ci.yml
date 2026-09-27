@@ -1,0 +1,85 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    name: Python · contract, gateway, Jev proxy
+    # The gateway reads macOS process accounting and sandboxes engines with sandbox-exec.
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: "**/uv.lock"
+      - name: labkit
+        working-directory: labkit
+        run: uv run --locked pytest -q
+      - name: gateway
+        working-directory: gateway
+        run: uv run --locked pytest -q
+      - name: Jev proxy
+        working-directory: engines/jev
+        run: uv run --locked pytest -q
+      - name: Engine lockfiles are current
+        run: for p in engines/laya engines/decider engines/kev; do (cd $p && uv lock --check) || exit 1; done
+
+  ui:
+    name: UI · typecheck, unit tests, build
+    runs-on: macos-15
+    defaults:
+      run:
+        working-directory: ui
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: ui/package-lock.json
+      - run: npm ci
+      - run: npx tsc --noEmit -p .
+      - run: npm test
+      - run: npm run build
+
+  e2e:
+    name: End-to-end · Playwright
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: "**/uv.lock"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: ui/package-lock.json
+      - name: Install
+        run: |
+          (cd labkit && uv sync --locked)
+          (cd gateway && uv sync --locked)
+          (cd ui && npm ci && npx playwright install chromium)
+      - name: Build UI
+        run: cd ui && npm run build
+      - name: Browser tests
+        run: cd ui && npx playwright test
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-traces
+          path: ui/test-results
+          retention-days: 7

@@ -1,0 +1,21 @@
+[project]
+name = "engine-kev"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "kev[serve]",
+    "labkit",
+]
+
+[tool.uv.sources]
+kev = { git = "https://github.com/jaredpalmer/kev" }
+labkit = { path = "../../labkit", editable = true }
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
