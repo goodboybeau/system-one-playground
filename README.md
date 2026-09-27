@@ -112,7 +112,7 @@ Background is in [docs/landscape.md](docs/landscape.md).
   - See latency, CPU time and memory per engine.
   - Ten ready-made presets: support triage, moderation, prompt-injection guardrails, multilingual, agent tool routing, a long-contract truncation trap, and more.
 - **📈 Honest resource numbers.**
-  - Live CPU, **physical memory footprint** (RSS misses GPU memory on Apple Silicon, often by 10× or more) and GPU utilisation.
+  - Live CPU, **physical memory footprint** (RSS misses GPU memory on Apple Silicon, by up to 90× in our measurements) and GPU utilisation.
   - Cold start broken into process start, weight loading and kernel warm-up.
 - **🏁 Benchmarks.** Nine seeded, deterministic slices of public datasets:
   - accuracy, **calibration** (ECE, Brier, wrong-at-95%, auto-accept-at-95%), reliability curves, accuracy vs latency, confusion matrices, per-language accuracy, and an item explorer for split decisions;
